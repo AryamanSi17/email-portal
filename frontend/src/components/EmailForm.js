@@ -3,6 +3,7 @@ import { sendEmail } from "../api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './EmailForm.css';
+import { RingLoader } from 'react-spinners'; // Importing a loading spinner component
 
 function EmailForm() {
   const [emailData, setEmailData] = useState({
@@ -13,8 +14,10 @@ function EmailForm() {
       Sincerely,<br>
       Aryaman Sinha<br>
       8630756879`,
-    file: null,  // State to handle file uploads
+    file: null, // State to handle file uploads
   });
+
+  const [loading, setLoading] = useState(false); // Loading state
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -27,21 +30,24 @@ function EmailForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    setLoading(true); // Start loading
+
     const formData = new FormData();
     formData.append("recipientEmail", emailData.recipientEmail);
     formData.append("subject", "6-Month Internship Inquiry");
     formData.append("message", emailData.message); // Formatted as HTML
-    
+
     if (emailData.file) {
       formData.append("attachment", emailData.file); // Attach the file with the same name as Multer expects
     }
-  
+
     try {
       const response = await sendEmail(formData);
       toast.success(response.data.message);
     } catch (error) {
       toast.error("Failed to send email");
+    } finally {
+      setLoading(false); // Stop loading after email is sent or an error occurs
     }
   };
 
@@ -102,7 +108,9 @@ function EmailForm() {
           className="file-input"
         />
 
-        <button className="submit-button" type="submit">Send Email</button>
+        <button className="submit-button" type="submit" disabled={loading}>
+          {loading ? <RingLoader size={20} color="#ffffff" loading={loading} /> : "Send Email"}
+        </button>
       </form>
     </div>
   );

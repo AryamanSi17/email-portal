@@ -15,7 +15,4 @@ app.use("/api", emailRoutes); // Mount email routes at /api
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-    console.log("Email:", process.env.EMAIL);
-console.log("Password:", process.env.PASSWORD); // Be cautious with logging passwords!
-
 });
