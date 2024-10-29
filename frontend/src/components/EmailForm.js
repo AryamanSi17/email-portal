@@ -3,11 +3,12 @@ import { sendEmail } from "../api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './EmailForm.css';
-import { RingLoader } from 'react-spinners'; // Importing a loading spinner component
+import { RingLoader } from 'react-spinners';
 
 function EmailForm() {
   const [emailData, setEmailData] = useState({
     recipientEmail: "",
+    subject: "6-Month Internship Inquiry", // Default subject
     message: `Dear Sir,<br><br>
       I am Aryaman Sinha, a student of NIT Jalandhar, expressing my interest in the 6-month internship at your esteemed company as a MERN Stack Developer.<br><br>
       My experience in full-stack applications and eagerness to contribute make me excited about this role. Please find my resume attached for your consideration.<br><br>
@@ -17,12 +18,12 @@ function EmailForm() {
     file: null, // State to handle file uploads
   });
 
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "attachment") {
-      setEmailData({ ...emailData, file: files[0] }); // Ensure file is stored
+      setEmailData({ ...emailData, file: files[0] });
     } else {
       setEmailData({ ...emailData, [name]: value });
     }
@@ -30,15 +31,15 @@ function EmailForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loading
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("recipientEmail", emailData.recipientEmail);
-    formData.append("subject", "6-Month Internship Inquiry");
-    formData.append("message", emailData.message); // Formatted as HTML
+    formData.append("subject", emailData.subject); // Use subject from state
+    formData.append("message", emailData.message);
 
     if (emailData.file) {
-      formData.append("attachment", emailData.file); // Attach the file with the same name as Multer expects
+      formData.append("attachment", emailData.file);
     }
 
     try {
@@ -47,14 +48,13 @@ function EmailForm() {
     } catch (error) {
       toast.error("Failed to send email");
     } finally {
-      setLoading(false); // Stop loading after email is sent or an error occurs
+      setLoading(false);
     }
   };
 
   const handleFocus = async () => {
     try {
       const text = await navigator.clipboard.readText();
-      // Regular expression to validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (emailRegex.test(text)) {
         setEmailData({ ...emailData, recipientEmail: text });
@@ -87,7 +87,17 @@ function EmailForm() {
           placeholder="Recipient Email"
           value={emailData.recipientEmail}
           onChange={handleChange}
-          onFocus={handleFocus}  // Fetch email from clipboard when the input is focused
+          onFocus={handleFocus}
+          required
+        />
+
+        <input
+          type="text"
+          name="subject"
+          value={emailData.subject}
+          onChange={handleChange}
+          placeholder="Subject"
+          className="subject-input"
           required
         />
 
@@ -101,7 +111,7 @@ function EmailForm() {
 
         <input
           type="file"
-          name="attachment" // This must match the field name expected by Multer
+          name="attachment"
           onChange={handleChange}
           accept=".pdf,.doc,.docx,.txt"
           required
