@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://email-portal-sre3.onrender.com/api", // Use Render URL here
 });
 
 export const sendEmail = (formData) =>
