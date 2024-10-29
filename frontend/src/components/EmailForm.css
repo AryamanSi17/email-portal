@@ -1,0 +1,137 @@
+/* EmailForm.css */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212; /* Dark background */
+  color: #ffffff; /* Light text color */
+  height: 100vh; /* Full height */
+  display: flex; /* Flexbox to center */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.email-form-container {
+  background-color: #1f1f1f; /* Slightly lighter background for the form */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  width: 600px; /* Fixed width for the form */
+  display: flex; /* Use flexbox to arrange items */
+  align-items: center; /* Center items vertically */
+}
+
+/* Mobile Wrapper to Adjust Layout for Smaller Screens */
+.form-wrapper {
+  width: 100%; /* Ensure form wrapper takes full width */
+}
+
+.email-form {
+  flex: 1; /* Allow the form to grow */
+  margin-left: 1rem; /* Space between the animation and the form */
+  width: 100%; /* Full width for the form */
+}
+
+.email-form h2 {
+  text-align: center; /* Center heading */
+  margin-bottom: 1rem; /* Spacing below heading */
+}
+
+.email-form input,
+.email-form textarea {
+  width: 100%; /* Full width */
+  padding: 10px;
+  margin: 0.5rem 0; /* Spacing between inputs */
+  border: 1px solid #333; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #282828; /* Dark input background */
+  color: #ffffff; /* Light input text */
+  font-size: 16px; /* Font size */
+}
+
+.email-form input::placeholder,
+.email-form textarea::placeholder {
+  color: #cccccc; /* Lighter placeholder text */
+}
+
+/* Wider and larger height for textarea to take 3/4th */
+.large-textarea {
+  height: 200px; /* Set a fixed height */
+  resize: none; /* Disable resizing */
+}
+
+.file-input {
+  padding: 10px;
+  margin: 0.5rem 0; /* Spacing between inputs */
+  border: 1px solid #333; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #282828; /* Dark input background */
+  color: #ffffff; /* Light text */
+}
+
+.submit-button {
+  width: 100%; /* Full width button */
+  padding: 10px;
+  background-color: #6200ea; /* Button color */
+  border: none; /* No border */
+  border-radius: 4px; /* Rounded corners */
+  color: #ffffff; /* Light text */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s, transform 0.2s; /* Animation */
+}
+
+.submit-button:hover {
+  background-color: #3700b3; /* Darker shade on hover */
+  transform: translateY(-2px); /* Lift effect */
+}
+
+.submit-button:active {
+  transform: translateY(0); /* Reset on click */
+}
+
+.file-preview {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.preview-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 5px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) { /* For tablets and mobile devices */
+  .email-form-container {
+    flex-direction: column; /* Stack items vertically on mobile */
+    padding: 1rem; /* Less padding for mobile */
+    width: 90%; /* Responsive width */
+    align-items: center; /* Center items horizontally */
+  }
+
+  .email-form {
+    margin-left: 0; /* Remove left margin for mobile */
+    margin-top: 1rem; /* Space between animation and form */
+  }
+
+  .email-form h2 {
+    font-size: 24px; /* Smaller font size on mobile */
+  }
+
+  .email-form input,
+  .email-form textarea,
+  .submit-button {
+    font-size: 14px; /* Smaller font size for inputs and button */
+  }
+
+  .large-textarea {
+    height: 150px; /* Reduced height for smaller screens */
+  }
+
+  .file-input {
+    padding: 8px; /* Smaller padding on inputs */
+  }
+}
