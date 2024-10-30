@@ -8,17 +8,21 @@ import { RingLoader } from 'react-spinners';
 function EmailForm() {
   const [emailData, setEmailData] = useState({
     recipientEmail: "",
-    subject: "6-Month Internship Inquiry", // Default subject
+    subject: "6-Month Internship Inquiry",
     message: `Dear Sir,<br><br>
       I am Aryaman Sinha, a student of NIT Jalandhar, expressing my interest in the 6-month internship at your esteemed company as a MERN Stack Developer.<br><br>
       My experience in full-stack applications and eagerness to contribute make me excited about this role. Please find my resume attached for your consideration.<br><br>
       Sincerely,<br>
       Aryaman Sinha<br>
       8630756879`,
-    file: null, // State to handle file uploads
+    file: null,
   });
 
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
+
+  // Load the password from .env
+  const correctPassword = process.env.REACT_APP_EMAIL_PASSWORD;
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -31,11 +35,16 @@ function EmailForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
+    if (password !== correctPassword) {
+      toast.error("Incorrect password. Cannot send email.");
+      return;
+    }
+
+    setLoading(true);
     const formData = new FormData();
     formData.append("recipientEmail", emailData.recipientEmail);
-    formData.append("subject", emailData.subject); // Use subject from state
+    formData.append("subject", emailData.subject);
     formData.append("message", emailData.message);
 
     if (emailData.file) {
@@ -80,7 +89,16 @@ function EmailForm() {
       ></dotlottie-player>
 
       <form className="email-form" onSubmit={handleSubmit}>
-        
+
+        <input
+          type="password"
+          placeholder="Enter Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="password-input"
+          required
+        />
+
         <input
           type="email"
           name="recipientEmail"
@@ -118,7 +136,11 @@ function EmailForm() {
           className="file-input"
         />
 
-        <button className="submit-button" type="submit" disabled={loading}>
+        <button
+          className="submit-button"
+          type="submit"
+          disabled={loading || password !== correctPassword}
+        >
           {loading ? <RingLoader size={20} color="#ffffff" loading={loading} /> : "Send Email"}
         </button>
       </form>
